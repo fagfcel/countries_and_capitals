@@ -7,4 +7,4 @@ Route::get('/', function () {
     echo 'Helo World!';
 });
 
-Route::get('/show_data', [MainController::class, 'showData']);
+Route::view('/', 'home');
