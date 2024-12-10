@@ -7,4 +7,6 @@ Route::get('/', function () {
     echo 'Helo World!';
 });
 
-Route::view('/', 'home');
+// Start Game
+Route::get('/', [MainController::class, 'startGame'])->name('start_game');
+Route::post('/', [MainController::class, 'prepareGame'])->name('prepare_game');
