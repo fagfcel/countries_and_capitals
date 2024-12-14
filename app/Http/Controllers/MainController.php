@@ -49,6 +49,40 @@ class MainController extends Controller
 
     private function preparedQuiz($total_questions)
     {
+        $questions = [];
+
+        $total_countries = count($this->app_data);
+
+        //create countries index for unique questions
+        $indexes = range(0, $total_countries, -1);
+        shuffle($indexes); //mistura os indices 
+        $indexes = array_slice($indexes,0,$total_questions);
+
+        // create arrays of questions
+        $question_number = 1;
+        foreach($indexes as $index)
+        {
+            $question['questions_number'] = $question_number++;
+            $question['country'] = $this->app_data[$index]['country'];
+            $question['correct_answer'] = $this->app_data[$index]['capital'];
+
+            // wrong answers
+            $other_capital = array_column($this->app_data,'capital');
+
+            // romove correct answer
+            $other_capital = array_diff($other_capital,[$question['correct_answer']]);
+
+            // shuffle the wrong answer
+            shuffle($other_capital);
+            $question['wrong_answer'] = array_slice($other_capital, 0, 3);
+
+            // store answer result
+            $question['correct'] = null;
+
+            $questions[] = $question;
+        }
+
+        return $questions;
 
     }
 
